@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JWT Client</title>
+</head>
+
+<body>
+    <h1>Contact Notes JWT Client</h1>
+
+    <!-- Login Section -->
+    <div id="loginSection">
+        <h2>Login</h2>
+        <label>Email: <input type="text" id="email" /></label><br />
+        <label>Password: <input type="password" id="password" /></label><br />
+        <button onclick="login()">Login</button>
+    </div>
+
+    <hr />
+
+    <!-- Register Section -->
+    <div id="registerSection">
+        <h2>Sign Up</h2>
+        <label>Email: <input type="text" id="register-email" /></label><br />
+        <label>Password: <input type="password" id="register-password" /></label><br />
+        <label>Confirm Password: <input type="password" id="register-password-confirmation" /></label><br />
+        <button onclick="register()">Sign Up</button>
+    </div>
+
+    <script>
+        async function login() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const response = await fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Save the token in localStorage
+                localStorage.setItem("jwtToken", data.token);
+
+                alert("Login successful!");
+                window.location.href = "/contacts"; // Redirect to contacts page
+            } else {
+                alert("Login failed: " + (data.error || 'Unknown error'));
+            }
+        }
+
+        async function register() {
+            const email = document.getElementById("register-email").value;
+            const password = document.getElementById("register-password").value;
+            const passwordConfirmation = document.getElementById("register-password-confirmation").value;
+
+            const response = await fetch("/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password, password_confirmation: passwordConfirmation })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert("Registration successful!");
+                window.location.href = "/contacts"; // Redirect to contacts page
+            } else {
+                alert("Registration failed: " + (data.error || 'Unknown error'));
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
-    def jwt_client
-        # You can optionally add any logic you need here
-    end
+  skip_before_action :authenticate_request!, only: [:jwt_client]
+
+  def jwt_client
+  end
 end

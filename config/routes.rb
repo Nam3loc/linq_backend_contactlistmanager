@@ -11,8 +11,7 @@ Rails.application.routes.draw do
     resources :notes
   end
 
-  # New route for the JWT client page
-  get '/jwt-client', to: 'pages#jwt_client', as: 'jwt_client'
+  get '/jwt_client', to: 'pages#jwt_client', as: 'jwt_client'
 
-  root to: redirect("/jwt-client")
+  root to: redirect("/jwt_client")
 end

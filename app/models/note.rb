@@ -1,3 +1,4 @@
 class Note < ApplicationRecord
-    belongs_to :contact
-end
+    belongs_to :contact, optional: true
+  end
+  

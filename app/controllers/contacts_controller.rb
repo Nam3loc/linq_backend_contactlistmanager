@@ -3,7 +3,7 @@ class ContactsController < ApplicationController
   before_action :authenticate_request!
 
   def index
-    @contacts = current_user.contacts  # Fetch only the contacts for the logged-in user
+    @contacts = current_user.contacts
 
     if params[:search_by_name] && params[:search_by_name] != ""
       @contacts = @contacts.where("name like ?", "%#{params[:search_by_name]}%")
@@ -19,7 +19,7 @@ class ContactsController < ApplicationController
   end
 
   def show
-    @contact = current_user.contacts.find(params[:id])  # Only allow fetching a contact belonging to the current user
+    @contact = current_user.contacts.find(params[:id])
 
     respond_to do |format|
       format.html
@@ -28,45 +28,48 @@ class ContactsController < ApplicationController
   end
 
   def new
-    @contact = current_user.contacts.new  # Create a new contact for the current user
+    @contact = current_user.contacts.new
     @contact.notes.build
   end
 
   def create
-    @contact = current_user.contacts.new(contact_params)  # Ensure the contact belongs to the logged-in user
+    @contact = current_user.contacts.new(contact_params)
+  
     if @contact.save
-      render json: @contact, status: :created
+      redirect_to contacts_path, notice: 'Contact was successfully created.'
     else
-      render json: { error: @contact.errors.full_messages }, status: :unprocessable_entity
+      puts @contact.errors.full_messages
+      render :new, status: :unprocessable_entity
     end
   end
 
   def edit
-    @contact = current_user.contacts.find(params[:id])  # Only allow editing contacts for the current user
+    @contact = current_user.contacts.find(params[:id])
   end
 
   def update
-    @contact = current_user.contacts.find(params[:id])  # Ensure the contact belongs to the logged-in user
+    @contact = current_user.contacts.find(params[:id])
     if @contact.update(contact_params)
-      render json: @contact, status: :ok
+      redirect_to @contact, notice: 'Contact was successfully updated.'
     else
-      render json: { error: @contact.errors.full_messages }, status: :unprocessable_entity
+      render :edit, status: :unprocessable_entity
     end
   end
+  
 
   def destroy
-    @contact = current_user.contacts.find(params[:id])  # Ensure the contact belongs to the logged-in user
+    @contact = current_user.contacts.find(params[:id])
     @contact.destroy
-    head :no_content
+    redirect_to contacts_path, notice: 'Contact was successfully deleted.'
   end
 
   private
 
   def set_contact
-    @contact = current_user.contacts.find(params[:id])  # Ensure the contact belongs to the logged-in user
+    @contact = current_user.contacts.find(params[:id])
   end
 
   def contact_params
-    params.require(:contact).permit(:name, :email, notes_attributes: [:body])
+    params.require(:contact).permit(:name, :email, notes_attributes: [:id, :body, :_destroy])
   end
 end

@@ -7,8 +7,8 @@ class NotesController < ApplicationController
     @notes = @contact.notes
 
     respond_to do |format|
-      format.html # renders index.html.erb
-      format.json { render json: @notes } # renders JSON data
+      format.html
+      format.json { render json: @notes }
     end
   end
 
