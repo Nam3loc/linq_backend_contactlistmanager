@@ -76,6 +76,6 @@ Currently, token expiry is demonstrated with a short 5-minute expiration and not
 
 ## Walkthrough
 
-You can view a walkthrough of the Contact List Manager [here](https://www.loom.com/share/808beaaaf5eb4c90adead1397f42b114).
+You can view a walkthrough of the Contact List Manager [here](https://www.loom.com/share/d2c457575bc04ba78a45463e89008367).
 
-[https://www.loom.com/share/808beaaaf5eb4c90adead1397f42b114]
+[https://www.loom.com/share/d2c457575bc04ba78a45463e89008367]
