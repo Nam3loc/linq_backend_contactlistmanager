@@ -1,0 +1,12 @@
+<h3>Notes</h3>
+<ul>
+  <% @contact.notes.each do |note| %>
+    <li>
+      <%= note.body %> —
+      <%= link_to "Edit", edit_contact_note_path(@contact, note) %> |
+      <%= link_to "Delete", contact_note_path(@contact, note), method: :delete, data: { confirm: "Are you sure?" } %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "Add Note", new_contact_note_path(@contact) %>

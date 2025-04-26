@@ -21,6 +21,13 @@
     </div>
 
     <div>
+        <%= form.fields_for :notes do |note_form| %>
+        <%= note_form.label :body, "Note" %>
+        <%= note_form.text_area :body %>
+        <% end %>
+    </div>
+
+    <div>
         <%= form.submit "Submit" %>
     </div>
 <% end %>

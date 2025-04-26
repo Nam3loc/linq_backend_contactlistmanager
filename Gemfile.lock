@@ -76,6 +76,7 @@ GEM
       public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.3)
     base64 (0.2.0)
+    bcrypt (3.1.20)
     bcrypt_pbkdf (1.1.1)
     benchmark (0.4.0)
     bigdecimal (3.1.9)
@@ -126,7 +127,9 @@ GEM
     jbuilder (2.13.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-    json (2.11.1)
+    json (2.11.3)
+    jwt (2.10.1)
+      base64
     kamal (2.5.3)
       activesupport (>= 7.0)
       base64 (~> 0.2)
@@ -334,12 +337,14 @@ PLATFORMS
   x86_64-linux-gnu
 
 DEPENDENCIES
+  bcrypt
   bootsnap
   brakeman
   capybara
   debug
   importmap-rails
   jbuilder
+  jwt
   kamal
   propshaft
   puma (>= 5.0)

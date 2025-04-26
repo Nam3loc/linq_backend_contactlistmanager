@@ -7,7 +7,19 @@
 <p><strong>Name:</strong> <%= @contact.name %></p>
 <p><strong>Email:</strong> <%= @contact.email %></p>
 
+<p><strong>Notes:</strong></p>
+<ul>
+  <% @contact.notes.each do |note| %>
+    <li>
+      <%= note.body %> — 
+      <%= button_to "Edit", edit_contact_note_path(@contact, note), method: :get %> |
+      <%= button_to "Delete", contact_note_path(@contact, note), method: :delete, data: { confirm: "Are you sure?" } %>
+    </li>
+  <% end %>
+</ul>
+
 <div>
+  <%= button_to "Add Note", new_contact_note_path(@contact), method: :get, class: 'button' %>
   <%= button_to "Edit", edit_contact_path(@contact), method: :get %>
   <%= button_to "Delete", @contact, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
 </div>

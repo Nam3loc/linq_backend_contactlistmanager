@@ -1,0 +1,20 @@
+<h2>Notes for <%= @contact.name %></h2>
+
+<% if @notes.any? %>
+  <ul>
+    <% @notes.each do |note| %>
+      <li style="margin-bottom: 1em;">
+        <p><strong>Note:</strong> <%= note.body %></p>
+        <p>
+          <%= button_to "Edit", edit_contact_note_path(@contact, note), method: :get %> |
+          <%= button_to "Delete", contact_note_path(@contact, note), method: :delete, data: { confirm: "Are you sure?" } %>
+        </p>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No notes yet.</p>
+<% end %>
+
+<%= button_to "Add a New Note", new_contact_note_path(@contact), method: :get, class: "button" %><br>
+<%= button_to "Back to Contact", contact_path(@contact), method: :get %>

@@ -1,0 +1,9 @@
+<h2>New Note for <%= @contact.name %></h2>
+
+<%= form_with model: [@contact, @note], local: true do |form| %>
+  <div>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
+  </div>
+  <%= form.submit "Save Note" %>
+<% end %>

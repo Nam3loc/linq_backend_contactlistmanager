@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>JWT Client</title>
+    <style>
+        #contactsSection {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Contact Notes JWT Client</h1>
+
+    <!-- Login Section -->
+    <div id="loginSection">
+        <h2>Login</h2>
+        <label>Email: <input type="text" id="email" /></label><br />
+        <label>Password: <input type="password" id="password" /></label><br />
+        <button onclick="login()">Login</button>
+    </div>
+
+    <hr />
+
+    <!-- Register Section -->
+    <div id="registerSection">
+        <h2>Sign Up</h2>
+        <label>Email: <input type="text" id="register-email" /></label><br />
+        <label>Password: <input type="password" id="register-password" /></label><br />
+        <label>Confirm Password: <input type="password" id="register-password-confirmation" /></label><br />
+        <button onclick="register()">Sign Up</button>
+    </div>
+
+    <hr />
+
+    <!-- Contacts Section -->
+    <div id="contactsSection">
+        <h2>Contacts</h2>
+        <button onclick="fetchContacts()">Fetch Contacts</button>
+        <pre id="contactsOutput"></pre>
+    </div>
+
+    <script>
+        let jwtToken = null;
+
+        function isTokenExpired(token) {
+            try {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                const now = Math.floor(Date.now() / 1000);
+                return payload.exp < now;
+            } catch (e) {
+                console.error("Failed to decode token", e);
+                return true;
+            }
+        }
+
+        // Login function
+        async function login() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const response = await fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                jwtToken = data.token;
+                localStorage.setItem("jwtToken", jwtToken); // Store token
+                alert("Login successful!");
+
+                // Hide login section and show contacts section
+                document.getElementById("loginSection").style.display = "none";
+                document.getElementById("registerSection").style.display = "none";
+                document.getElementById("contactsSection").style.display = "block";
+            } else {
+                alert("Login failed: " + data.error);
+            }
+        }
+
+        // Register function
+        async function register() {
+            const email = document.getElementById("register-email").value;
+            const password = document.getElementById("register-password").value;
+            const passwordConfirmation = document.getElementById("register-password-confirmation").value;
+
+            const response = await fetch("/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password, password_confirmation: passwordConfirmation })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                jwtToken = data.token;
+                localStorage.setItem("jwtToken", jwtToken); // Store token
+                alert("Registration successful!");
+
+                // Hide login section and show contacts section
+                document.getElementById("loginSection").style.display = "none";
+                document.getElementById("registerSection").style.display = "none";
+                document.getElementById("contactsSection").style.display = "block";
+            } else {
+                alert("Registration failed: " + data.error);
+            }
+        }
+
+        // Fetch Contacts function
+        async function fetchContacts() {
+            jwtToken = localStorage.getItem("jwtToken");
+
+            if (!jwtToken) {
+                alert("You must log in first.");
+                return;
+            }
+
+            if (isTokenExpired(jwtToken)) {
+                localStorage.removeItem("jwtToken");
+                alert("Session expired. Please log in again.");
+                window.location.href = "/jwt-client.html"; // Redirect to login page
+                return;
+            }
+
+            try {
+                const response = await fetch("/contacts", {
+                    headers: {
+                        "Authorization": "Bearer " + jwtToken,
+                        "Accept": "application/json"
+                    }
+                });
+
+                const output = document.getElementById("contactsOutput");
+                const data = await response.json();
+
+                if (response.ok) {
+                    output.textContent = JSON.stringify(data, null, 2);
+                } else {
+                    output.textContent = `Error: ${data.error || 'An unexpected error occurred'}`;
+                }
+            } catch (error) {
+                console.error("Error fetching contacts:", error);
+                const output = document.getElementById("contactsOutput");
+                output.textContent = "Error: Failed to fetch contacts.";
+            }
+        }
+    </script>
+</body>
+
+</html>

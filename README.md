@@ -1,8 +1,8 @@
-# Contact List Manager
+# Contact List Manager - Back End
 
 ## Time Spent
 
-2 hours
+8 hours
 
 ## Description
 

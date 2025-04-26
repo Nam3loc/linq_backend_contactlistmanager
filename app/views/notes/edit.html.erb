@@ -1,0 +1,16 @@
+<h2>Edit Note for <%= @contact.name %></h2>
+
+<%= form_with model: [@contact, @note], local: true do |form| %>
+  <div>
+    <%= form.label :body %><br>
+    <%= form.text_area :body, rows: 5 %>
+  </div>
+
+  <div style="margin-top: 1em;">
+    <%= form.submit "Update Note" %>
+  </div>
+<% end %>
+
+<div style="margin-top: 1em;">
+  <%= button_to "Back to Notes", contact_notes_path(@contact), method: :get %>
+</div>
