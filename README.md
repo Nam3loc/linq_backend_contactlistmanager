@@ -54,7 +54,7 @@ To run this Ruby on Rails application locally, follow these steps:
 
 ## Trade Offs
 
-I extended the application I originally built during my software engineering technical interview. That caused me to continue to use Rails which I am new too. This was a great learning experience! I was able to learn a lot of the way that Rails organizes backend applications and it is very simple, user friendly, and fun to use.
+I extended the application I originally built during my software engineering technical interview. That caused me to continue to use Rails which I am new to and this ended up being a great learning experience! I was able to learn a lot of how Rails organizes backend applications, as well as how simple, user friendly, and fun to use it is.
 
 The trade offs were a lack of knowledge so it took a lot of learning and tinkering. I did not see a time limit listed in the instructions for this assignment but I still did not want to spend too long on this project as a whole. Because of that, I stopped before I was able to add unit tests or a queue or event bus to decouple note creation from indexing or processing. 
 
@@ -64,7 +64,7 @@ In the future, I would love to expand this project by:
 
 - Adding a full React frontend to improve the user experience.
 
-- Using Devise for authentication for more robust user management (registration, login, logout).
+- Using Devise for authentication for more robust user management, with simpler application integration (registration, login, logout).
 
 - Building a full test suite to ensure code quality and long-term support.
 
@@ -72,7 +72,7 @@ In the future, I would love to expand this project by:
 
 - Improving token handling to better mimic production-level UX, including background token refreshes.
 
-Currently, token expiry is demonstrated with a short 5-minute expiration and notification system. While useful for showcasing functionality, this would be adjusted for production applications to prevent disruptions to the user experience.
+Currently, token expiry is demonstrated with a short 5-minute expiration and  alerts are acting as a notification system. While useful for showcasing functionality, this would be adjusted for production applications to prevent disruptions to the user experience.
 
 ## Walkthrough
 
